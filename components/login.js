@@ -42,7 +42,20 @@ export default class Login extends Component {
         })
         this.props.navigation.navigate('Dashboard')
       })
-      .catch(error => this.setState({ errorMessage: error.message }))
+      .catch((error) => {
+        switch(error.code) {
+          case 'auth/user-not-found':
+          case 'auth/wrong-password':
+            Alert.alert('Incorrect email or password');
+            break;
+          default: 
+            Alert.alert(error.message);
+        }
+        
+        this.setState({
+          isLoading: false
+        })
+  })
     }
   }
 
@@ -75,7 +88,7 @@ export default class Login extends Component {
         />   
         <Button
           color="#3740FE"
-          title="Signin"
+          title="Login"
           onPress={() => this.userLogin()}
         />   
 

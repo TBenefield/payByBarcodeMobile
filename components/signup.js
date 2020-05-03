@@ -87,7 +87,7 @@ export default class Signup extends Component {
         />   
         <Button
           color="#3740FE"
-          title="Signup"
+          title="Sign Up"
           onPress={() => this.registerUser()}
         />
 
