@@ -76,6 +76,7 @@ export default class Login extends Component {
           style={styles.inputStyle}
           placeholder="Email"
           value={this.state.email}
+          autoCapitalize='none'
           onChangeText={(val) => this.updateInputVal(val, 'email')}
         />
         <TextInput

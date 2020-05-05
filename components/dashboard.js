@@ -4,14 +4,17 @@ import React, { Component } from 'react';
 import { StyleSheet, View, Text, Button, ScrollView, Image, Alert, TextInput } from 'react-native';
 import firebase from '../database/firebase';
 import QRCode from 'react-native-qrcode-generator';
-import Item from './Item';
+import moment from 'moment';
+import 'firebase/firestore';
 
+function btoa(data) { return new Buffer(data, "binary").toString("base64"); }
+function atob(data) { return new Buffer(data, "base64").toString("binary"); }
 
 export default class Dashboard extends Component {
   constructor() {
     super();
     this.state = { 
-      displayName: firebase.auth().currentUser.displayName,
+      //displayName: firebase.auth().currentUser.displayName,
       uid: firebase.auth().currentUser.uid,
       barcode: 'http://paybybarcode.fun',
       paymentAmount: 0,
@@ -46,11 +49,29 @@ export default class Dashboard extends Component {
       Alert.alert("Payment amount must be greater than $0.00");
       return;
     };
-    //create barcode
-    this.setState({
-      barcode: 'http://paybybarcode.fun/Checkout/?Amount=' + this.state.payment + '&id=' + this.state.uid + '&description=' + this.state.description,
-      barcodeVisible: 1
-    });
+
+    //generate key
+    var confirmKey = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
+
+    //invoice in firebase
+    firebase.firestore().collection('invoices')
+      .add({
+        user: this.state.uid,
+        payment: this.state.payment,
+        description: this.state.description,
+        creationDate: moment().format('llll'),
+        processed: false,
+        securityKey: confirmKey,
+    })
+      .then((invoice) => {
+        this.setState({
+          barcode: 'http://paybybarcode.fun/home/invoice=' + invoice.id + '/key=' + confirmKey,
+          barcodeVisible: 1
+        })
+      })
+      .catch(function(error) {
+        Alert.alert(error.message)
+      });
   };
 
   render() {
