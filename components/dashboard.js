@@ -4,7 +4,6 @@ import React, { Component } from 'react';
 import { StyleSheet, View, Text, Button, ScrollView, Image, Alert, TextInput } from 'react-native';
 import firebase from '../database/firebase';
 import QRCode from 'react-native-qrcode-generator';
-import Item from './Item';
 
 
 export default class Dashboard extends Component {
@@ -48,7 +47,7 @@ export default class Dashboard extends Component {
     };
     //create barcode
     this.setState({
-      barcode: 'http://paybybarcode.fun/Checkout/?Amount=' + this.state.payment + '&id=' + this.state.uid + '&description=' + this.state.description,
+      barcode: 'http://paybybarcode.fun/home/amount=' + this.state.payment + '/id=' + this.state.uid + '/des=' + this.state.description + '/name=' + this.state.displayName,
       barcodeVisible: 1
     });
   };
@@ -57,14 +56,33 @@ export default class Dashboard extends Component {
      
     return (
       <ScrollView>
+      
+      <Image style= { styles.backgroundImage } source={require('./b2.jpg')} >
+      </Image>
       <Image source={require('../components/LOGO.png')} />
 
       <View style={styles.container}>
         <Text style = {styles.textStyle}>
           Hello, {this.state.displayName}          
         </Text>
-        <Text>Welcome To Pay By Barcode</Text>
-        <Text>Make all your Payments with just a scan!</Text>
+        <Text
+        style={{
+          textAlign: "center",
+          color: "#ffffff",
+          fontWeight: "bold",
+          paddingTop: 0,
+        
+        }}>
+        Welcome To Pay By Barcode</Text>
+        <Text
+        style={{
+          textAlign: "center",
+          color: "#ffffff",
+          fontWeight: "bold",
+          paddingTop: 0,
+        
+        }}>
+        Make all your Payments with just a scan!</Text>
 
         <View style={styles.item}>
           <Text style={styles.headers}>Description</Text>
@@ -89,8 +107,8 @@ export default class Dashboard extends Component {
 		    <Button
 			  title="Generate Barcode"
 			  onPress = {this.createBarcode}
-			  color='#3740FE'
-			/>
+        color="#00a8cc"
+        />
 		  </View>
 		  
 		  <View style={styles.qrCode} opacity={this.state.barcodeVisible}>
@@ -101,8 +119,8 @@ export default class Dashboard extends Component {
 		  </View>
 
         <Button
-          color="#3740FE"
-          title="Logout"
+        color="#00a8cc"
+        title="Logout"
           onPress={() => this.signOut()}
         />
       </View>
@@ -114,10 +132,21 @@ export default class Dashboard extends Component {
 }
 
 const styles = StyleSheet.create({
+  backgroundImage:{
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+    opacity: 1,
+    width:400,
+    height:700
+
+},
   barButton: {
 	  fontSize: 60,
 	  width: '70%',
-	  marginTop: 10,
+    marginTop: 10,
 	  /*marginHorizontal: '36%'*/
   },
   container: {
@@ -125,45 +154,57 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 20,
+    marginTop: 0,
     padding: 40,
-    backgroundColor: '#fff'
   },
   headers: {
+    color: '#ffffff',
     fontSize: 25,
     marginRight: 30,
     marginLeft: 75,
     textDecorationLine: 'underline',
+    paddingBottom:5
   },
   inputDescription: {
+    color: '#ffffff',
     borderColor: 'gray',
     borderWidth: 1,
-    width: '70%',
+    width: '80%',
     height: 30,
     fontSize: 20,
     textAlign: 'left',
     marginRight: 20,
-    paddingLeft: 5,
+    paddingLeft: 2  
   },
   inputPayment: {
+    color: '#ffffff',
     borderColor: 'gray',
     borderWidth: 1,
-    width: '25%',
+    width: '30%',
     height: 30,
     fontSize: 20,
     textAlign: 'right',
-    marginLeft: 20,
+    marginLeft: 5,
     paddingRight: 5,
   },
   item: {
     flexDirection: 'row',
+    color: '#ffffff',
+
     marginTop: 10
   },
   qrCode: {
-	  marginTop: 10,
+    marginTop: 20,
+    borderColor: 'gray',
+    borderWidth: 5
   },
   textStyle: {
-    fontSize: 15,
-    marginBottom: 20
+    fontSize: 25,
+    marginBottom: 10,
+    color: '#ffffff',
+    textDecorationLine: 'underline',
+
+
+
   }
 });

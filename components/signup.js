@@ -1,7 +1,7 @@
 // components/signup.js
 
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, Alert, ActivityIndicator, Image, ScrollView  } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, Alert, ActivityIndicator, Image, ScrollView, Linking  } from 'react-native';
 import firebase from '../database/firebase';
 
 
@@ -61,6 +61,8 @@ export default class Signup extends Component {
     return (
 
       <ScrollView>
+      <Image style= { styles.backgroundImage } source={require('./b1.jpg')} >
+      </Image>
       
       <Image source={require('../components/LOGO.png')} />
       <View style={styles.container}>  
@@ -86,8 +88,8 @@ export default class Signup extends Component {
           secureTextEntry={true}
         />   
         <Button
-          color="#3740FE"
-          title="Sign Up"
+          color="#00a8cc"
+          title="Signup"
           onPress={() => this.registerUser()}
         />
 
@@ -97,19 +99,39 @@ export default class Signup extends Component {
           Already Registered? Click here to login
         </Text>                          
       </View>
+      <Text    style={{
+        textAlign: "center",
+        color: "#ffffff",
+        fontWeight: "bold",
+        paddingTop: 150,
+        paddingBottom:80,
+        textDecorationLine: 'underline'
+      }}
+      onPress={ ()=> Linking.openURL('https://paybybarcode.fun') } >To Learn More Go To PayByBarcode.fun</Text>
+
       </ScrollView>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  backgroundImage:{
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+    opacity: 1,
+    width:400,
+    height:670
+
+},
   container: {
     flex: 1,
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
     padding: 35,
-    backgroundColor: '#fff'
   },
   inputStyle: {
     width: '100%',
@@ -117,12 +139,16 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
     alignSelf: "center",
     borderColor: "#ccc",
-    borderBottomWidth: 1
+    borderBottomWidth: 1,
+    color:'#ffffff'
+
   },
   loginText: {
-    color: '#3740FE',
+    color: '#ffffff',
     marginTop: 25,
-    textAlign: 'center'
+    textAlign: 'center',
+    color:'#ffffff'
+
   },
   preloader: {
     left: 0,

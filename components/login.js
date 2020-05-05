@@ -1,7 +1,7 @@
 // components/login.js
 
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, Alert, ActivityIndicator, Image, ScrollView} from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, Alert, ActivityIndicator, Image, ScrollView, ImageBackground,Linking } from 'react-native';
 import firebase from '../database/firebase';
 
 
@@ -42,36 +42,34 @@ export default class Login extends Component {
         })
         this.props.navigation.navigate('Dashboard')
       })
-      .catch((error) => {
-        switch(error.code) {
-          case 'auth/user-not-found':
-          case 'auth/wrong-password':
-            Alert.alert('Incorrect email or password');
-            break;
-          default: 
-            Alert.alert(error.message);
-        }
-        
-        this.setState({
-          isLoading: false
-        })
-  })
+      .catch(error => this.setState({ errorMessage: error.message }))
     }
   }
 
+  //style={{ width:'100%', backgroundColor:"#00a8cc"}}
   render() {
     if(this.state.isLoading){
       return(
-        <View style={styles.preloader}>
+        <View style={styles.preloader}  >
         
-        <ActivityIndicator size="large" color="#9E9E9E"/>
+        <ActivityIndicator size="large" color="#00a8cc"/>
         </View>
         )
       }    
       return (
-        <ScrollView>
-        <Image source={require('../components/LOGO.png')} />
-      <View style={styles.container}>  
+        <ScrollView >
+        <Image style= { styles.backgroundImage } source={require('./b1.jpg')} >
+        </Image>
+        <View style={styles.container}>  
+        <Image source={require('../components/LOGO.png')} style={{ width:'100%'}}/>
+        <Text 
+        style={{
+          textAlign: "center",
+          color: "#ffffff",
+          fontWeight: "bold",
+          padding:25
+        }}>
+        Make Payemnts The Easy Way!</Text>
         <TextInput
           style={styles.inputStyle}
           placeholder="Email"
@@ -87,8 +85,8 @@ export default class Login extends Component {
           secureTextEntry={true}
         />   
         <Button
-          color="#3740FE"
-          title="Login"
+          color="#00a8cc"
+          title="Signin"
           onPress={() => this.userLogin()}
         />   
 
@@ -98,12 +96,36 @@ export default class Login extends Component {
           Don't have account? Click here to signup
         </Text>                          
       </View>
+   
+
+      <Text    style={{
+        textAlign: "center",
+        color: "#ffffff",
+        fontWeight: "bold",
+        paddingTop: 150,
+        paddingBottom:30,
+        textDecorationLine: 'underline'
+      }}
+      onPress={ ()=> Linking.openURL('https://paybybarcode.fun') } >To Learn More Go To PayByBarcode.fun</Text>
+
+
       </ScrollView>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  backgroundImage:{
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+    opacity: 1,
+    width:400,
+    height:670
+
+},
   
   container: {
     flex: 1,
@@ -111,7 +133,6 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     padding: 35,
-    backgroundColor: '#fff'
   },
   inputStyle: {
     width: '100%',
@@ -119,12 +140,13 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
     alignSelf: "center",
     borderColor: "#ccc",
-    borderBottomWidth: 1
+    borderBottomWidth: 1,
+    color:'#ffffff'
   },
   loginText: {
-    color: '#3740FE',
+    color: '#ffffff',
     marginTop: 25,
-    textAlign: 'center'
+    textAlign: 'center',
   },
   preloader: {
     left: 0,
