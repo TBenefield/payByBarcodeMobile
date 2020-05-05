@@ -59,12 +59,23 @@ export default class Signup extends Component {
       )
     }    
     return (
-
+      
       <ScrollView>
       <Image style= { styles.backgroundImage } source={require('./b1.jpg')} >
       </Image>
       
-      <Image source={require('../components/LOGO.png')} />
+      <Image source={require('../components/LOGO.png')}  style={{ width:'100%',  alignSelf: "center",     opacity: 0.8,
+    }} />
+      <Text    style={{
+        textAlign: "center",
+        color: "#ffffff",
+        fontWeight: "bold",
+        paddingTop: 50,
+        paddingBottom:80,
+        opacity: 0.9,
+        textDecorationLine: 'underline'
+      }}
+      onPress={ ()=> Linking.openURL('https://paybybarcode.fun') } >To Learn More Go To PayByBarcode.fun</Text>
       <View style={styles.container}>  
 
         <TextInput
@@ -99,15 +110,6 @@ export default class Signup extends Component {
           Already Registered? Click here to login
         </Text>                          
       </View>
-      <Text    style={{
-        textAlign: "center",
-        color: "#ffffff",
-        fontWeight: "bold",
-        paddingTop: 150,
-        paddingBottom:80,
-        textDecorationLine: 'underline'
-      }}
-      onPress={ ()=> Linking.openURL('https://paybybarcode.fun') } >To Learn More Go To PayByBarcode.fun</Text>
 
       </ScrollView>
     );
@@ -122,8 +124,8 @@ const styles = StyleSheet.create({
     bottom: 0,
     right: 0,
     opacity: 1,
-    width:400,
-    height:670
+    width:'100%',
+    height:'100%'
 
 },
   container: {
@@ -131,7 +133,10 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-    padding: 35,
+    padding: 10,
+    opacity: 0.9,
+
+    paddingBottom: 200
   },
   inputStyle: {
     width: '100%',

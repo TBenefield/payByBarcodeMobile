@@ -4,7 +4,6 @@
     "description": "Payment Method",
     "slug": "rnFirebaseAuth",
     "privacy": "public",
-    "sdkVersion": "36.0.0",
     "platforms": [
       "ios",
       "android",
@@ -27,9 +26,8 @@
     "ios": {
       "supportsTablet": true
     },
-    "android":{
+    "android": {
       "package": "com.yourcompany.yourappname"
-    
+    }
   }
-}
 }
