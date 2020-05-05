@@ -1,6 +1,7 @@
 {
   "expo": {
-    "name": "Blank Template",
+    "name": "PayByBarcode",
+    "description": "Payment Method",
     "slug": "rnFirebaseAuth",
     "privacy": "public",
     "sdkVersion": "36.0.0",
@@ -21,10 +22,14 @@
       "fallbackToCacheTimeout": 0
     },
     "assetBundlePatterns": [
-      "**/*"
+      "assets/*"
     ],
     "ios": {
       "supportsTablet": true
-    }
+    },
+    "android":{
+      "package": "com.yourcompany.yourappname"
+    
   }
+}
 }
