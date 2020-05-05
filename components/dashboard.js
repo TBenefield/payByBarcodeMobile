@@ -4,11 +4,8 @@ import React, { Component } from 'react';
 import { StyleSheet, View, Text, Button, ScrollView, Image, Alert, TextInput } from 'react-native';
 import firebase from '../database/firebase';
 import QRCode from 'react-native-qrcode-generator';
-<<<<<<< HEAD
 import moment from 'moment';
 import 'firebase/firestore';
-=======
->>>>>>> 1e82c10eb2e7ba0d5f08b4c5b963d22c40d153bb
 
 function btoa(data) { return new Buffer(data, "binary").toString("base64"); }
 function atob(data) { return new Buffer(data, "base64").toString("binary"); }
