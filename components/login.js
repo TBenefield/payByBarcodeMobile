@@ -52,7 +52,7 @@ export default class Login extends Component {
       return(
         <View style={styles.preloader}  >
         
-        <ActivityIndicator size="large" color="#00a8cc"/>
+        <ActivityIndicator size="large" />
         </View>
         )
       }    
@@ -61,15 +61,26 @@ export default class Login extends Component {
         <Image style= { styles.backgroundImage } source={require('./b1.jpg')} >
         </Image>
         <View style={styles.container}>  
-        <Image source={require('../components/LOGO.png')} style={{ width:'100%'}}/>
+        <Image source={require('../components/LOGO.png')} style={{ width:'100%',  alignSelf: "center",opacity: 0.9     }}/>
+      <Text    style={{
+        textAlign: "center",
+        color: "#ffffff",
+        fontWeight: "bold",
+        marginTop: 50,
+        paddingBottom:30,
+        opacity: 0.8,
+        textDecorationLine: 'underline'
+      }}
+      onPress={ ()=> Linking.openURL('https://paybybarcode.fun') } > Click Here To Learn More About PayByBarcode.fun</Text>
         <Text 
         style={{
           textAlign: "center",
           color: "#ffffff",
           fontWeight: "bold",
-          padding:25
+          opacity: 0.8,
+          marginBottom:50
         }}>
-        Make Payemnts The Easy Way!</Text>
+        Make Payments The Easy Way!</Text>
         <TextInput
           style={styles.inputStyle}
           placeholder="Email"
@@ -99,15 +110,6 @@ export default class Login extends Component {
       </View>
    
 
-      <Text    style={{
-        textAlign: "center",
-        color: "#ffffff",
-        fontWeight: "bold",
-        paddingTop: 150,
-        paddingBottom:30,
-        textDecorationLine: 'underline'
-      }}
-      onPress={ ()=> Linking.openURL('https://paybybarcode.fun') } >To Learn More Go To PayByBarcode.fun</Text>
 
 
       </ScrollView>
@@ -123,8 +125,8 @@ const styles = StyleSheet.create({
     bottom: 0,
     right: 0,
     opacity: 1,
-    width:400,
-    height:670
+    width:'100%',
+    height:'100%'
 
 },
   
@@ -133,7 +135,8 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-    padding: 35,
+    padding: 10,
+    marginBottom:220
   },
   inputStyle: {
     width: '100%',
@@ -157,6 +160,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#fff'
+    backgroundColor: '#ffffff'
   }
 });

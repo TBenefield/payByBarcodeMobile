@@ -18,7 +18,7 @@ export default class Dashboard extends Component {
       uid: firebase.auth().currentUser.uid,
       barcode: 'http://paybybarcode.fun',
       paymentAmount: 0,
-      barcodeVisible: 0,
+      barcodeVisible: 0
     };
   }
 
@@ -81,7 +81,7 @@ export default class Dashboard extends Component {
       
       <Image style= { styles.backgroundImage } source={require('./b2.jpg')} >
       </Image>
-      <Image source={require('../components/LOGO.png')} />
+      <Image source={require('../components/LOGO.png')} style={{ width:'100%',  alignSelf: "center",opacity: 0.9, padding:0     }}/>
 
       <View style={styles.container}>
         <Text style = {styles.textStyle}>
@@ -106,12 +106,12 @@ export default class Dashboard extends Component {
         }}>
         Make all your Payments with just a scan!</Text>
 
-        <View style={styles.item}>
+        <View style={styles.item1}>
           <Text style={styles.headers}>Description</Text>
           <Text style={styles.headers}>Price</Text>
         </View>
 
-        <View style={styles.item}>
+        <View style={styles.item2}>
           <TextInput
             style={styles.inputDescription}
             onChangeText={text => this.changeDescription(text)}
@@ -161,8 +161,8 @@ const styles = StyleSheet.create({
     bottom: 0,
     right: 0,
     opacity: 1,
-    width:400,
-    height:700
+    width:'100%',
+    height:'100%'
 
 },
   barButton: {
@@ -176,11 +176,12 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 0,
-    padding: 40,
+    padding: 20,
+    paddingBottom:100
   },
   headers: {
-    color: '#ffffff',
+    color:'#00a8cc',
+
     fontSize: 25,
     marginRight: 30,
     marginLeft: 75,
@@ -209,24 +210,32 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     paddingRight: 5,
   },
-  item: {
+  item1: {  
     flexDirection: 'row',
     color: '#ffffff',
+    alignItems: 'center',
+    marginTop: 20
+  },
+  item2: {
+    flexDirection: 'row',
+    color: '#ffffff',
+    marginLeft: 30,
+    marginRight: 30,
+    alignItems: 'center',
 
-    marginTop: 10
   },
   qrCode: {
     marginTop: 20,
     borderColor: 'gray',
-    borderWidth: 5
+    borderWidth: 5,
+    marginBottom: 10
+
   },
   textStyle: {
     fontSize: 25,
     marginBottom: 10,
-    color: '#ffffff',
+    padding:0,
+    color: '#00a8cc',
     textDecorationLine: 'underline',
-
-
-
   }
 });
