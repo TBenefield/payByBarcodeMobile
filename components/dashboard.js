@@ -6,6 +6,7 @@ import firebase from '../database/firebase';
 import QRCode from 'react-native-qrcode-generator';
 import moment from 'moment';
 import 'firebase/firestore';
+import { greaterThan } from 'react-native-reanimated';
 
 function btoa(data) { return new Buffer(data, "binary").toString("base64"); }
 function atob(data) { return new Buffer(data, "base64").toString("binary"); }
@@ -18,9 +19,13 @@ export default class Dashboard extends Component {
       uid: firebase.auth().currentUser.uid,
       barcode: 'http://paybybarcode.fun',
       paymentAmount: 0,
-      barcodeVisible: 0
+      barcodeVisible: 0,
+      transactionInProgress: false,
+      processed: false,
+      firebase: firebase.firestore().collection('invoices'),
     };
   }
+
 
   signOut = () => {
     firebase.auth().signOut().then(() => {
@@ -42,19 +47,39 @@ export default class Dashboard extends Component {
     })
   };
 
+  //confirm and allow the user to enter next transaction.  Barcode is made invisible and text boxes are emptied
+  confirm = () => {
+    this.setState({
+      payment: null,
+      description: '',
+      transactionInProgress: false,
+      processed: false,
+      barcodeVisible: false
+    })
+  }
+
   //generate barcode
   createBarcode = () => {
+    //check if a transaction is already happening
+    if(this.state.transactionInProgress) {
+      Alert.alert("Payment has not yet been made.");
+      return;
+    }
+
     //make sure value in payment blank is a number
     if(isNaN(this.state.payment) || this.state.payment <= 0) {
       Alert.alert("Payment amount must be greater than $0.00");
       return;
     };
 
-    //generate key
+    //start transaction, this will disable text and buttons
+    this.setState({ transactionInProgress: true});    
+
+    //generate confirmation key
     var confirmKey = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
 
     //invoice in firebase
-    firebase.firestore().collection('invoices')
+    this.state.firebase
       .add({
         user: this.state.uid,
         payment: this.state.payment,
@@ -64,9 +89,14 @@ export default class Dashboard extends Component {
         securityKey: confirmKey,
     })
       .then((invoice) => {
+        //generate url for barcode and make it visible
         this.setState({
           barcode: 'http://paybybarcode.fun/home/invoice=' + invoice.id + '/key=' + confirmKey,
           barcodeVisible: 1
+        })
+        //watch the snapshot of firestore for the confirmation of payment
+        this.state.firebase.doc(invoice.id).onSnapshot((shot) => {            
+          this.setState({ processed: shot.data().processed });
         })
       })
       .catch(function(error) {
@@ -116,12 +146,14 @@ export default class Dashboard extends Component {
             style={styles.inputDescription}
             onChangeText={text => this.changeDescription(text)}
             value={this.state.description}
+            editable={!this.state.transactionInProgress}
           />
           <TextInput
             style={styles.inputPayment}
             onChangeText={text => this.changePayment(text)}
             value={this.state.payment}
             keyboardType={'numeric'}
+            editable={!this.state.transactionInProgress}
           />
         </View>
 		  
@@ -130,6 +162,7 @@ export default class Dashboard extends Component {
 			  title="Generate Barcode"
 			  onPress = {this.createBarcode}
         color="#00a8cc"
+        disabled={this.transactionInProgress}
         />
 		  </View>
 		  
@@ -138,6 +171,26 @@ export default class Dashboard extends Component {
 			  value={this.state.barcode}
 			  size={200}
 			  />
+		  </View>
+
+      <View style={styles.item1} opacity={this.state.transactionInProgress && !this.state.processed}>
+      <Text
+        style={{
+          fontSize: 15,
+          color: "#ffffff",
+          fontWeight: "bold",
+          paddingTop: 0,
+        }}>
+        Awaiting Confirmation of Payment</Text>
+        <Image source={require('../components/loading.gif')} style={{ width:30,height:30,opacity: 0.9, marginLeft:20}}/>
+      </View>
+
+      <View style={styles.confirmButton} opacity={this.state.processed}>
+		    <Button
+        title="Confirm"
+        onPress = {this.confirm}
+        color="#00a8cc"
+        />
 		  </View>
 
         <Button
@@ -170,6 +223,13 @@ const styles = StyleSheet.create({
 	  width: '70%',
     marginTop: 10,
 	  /*marginHorizontal: '36%'*/
+  },
+  confirmButton: {
+    fontSize: 60,
+    color: 'black',
+	  width: '70%',
+    marginTop: 10,
+    backgroundColor: 'green',
   },
   container: {
     flex: 1,
