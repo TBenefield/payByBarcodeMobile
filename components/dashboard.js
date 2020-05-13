@@ -187,9 +187,9 @@ export default class Dashboard extends Component {
 
       <View style={styles.confirmButton} opacity={this.state.processed}>
 		    <Button
-        title="Confirm"
+        title="Confirm Payment"
         onPress = {this.confirm}
-        color="#00a8cc"
+        color="white"
         />
 		  </View>
 
