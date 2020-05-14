@@ -1,7 +1,7 @@
 // components/signup.js
 
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, Alert, ActivityIndicator, Image, ScrollView, Linking  } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, Alert, ActivityIndicator, Image, ImageBackground, ScrollView, Linking  } from 'react-native';
 import firebase from '../database/firebase';
 
 
@@ -61,48 +61,65 @@ export default class Signup extends Component {
     return (
       
       <ScrollView>
-      <Image style= { styles.backgroundImage } source={require('./b1.jpg')} >
-      </Image>
+      <ImageBackground style= { styles.backgroundImage }   blurRadius={0} source={require('./bb1.jpg')} />
       
-      <Image source={require('../components/LOGO.png')}  style={{ width:'100%',  alignSelf: "center",     opacity: 0.8,
-    }} />
+      <Image source={require('../components/LOGO.png')}  style={{ width:'110%',  alignSelf: "center", padding:0, margin:0 }} />
+    <Image source={require('../components/giphy.gif')} style={{height:165, width:'100%',  alignSelf: "center",opacity: 1 , margin:0,padding:0    }}/>
+
       <Text    style={{
         textAlign: "center",
-        color: "#ffffff",
+        color: "#000000",
         fontWeight: "bold",
-        paddingTop: 50,
-        paddingBottom:80,
-        opacity: 0.9,
+        fontSize:20,
+        paddingTop: 0,
+        paddingBottom:20,
+        opacity: 1,
         textDecorationLine: 'underline'
       }}
       onPress={ ()=> Linking.openURL('https://paybybarcode.fun') } >To Learn More Go To PayByBarcode.fun</Text>
       <View style={styles.container}>  
-
+      <Text    style={{
+        textAlign: "center",
+        color: "#000000",
+        fontWeight: "bold",
+        paddingTop: 0,
+        fontSize:22,
+        paddingBottom:10,
+        opacity: 1,
+        textDecorationLine: 'none'
+      }}
+  >Sign Up</Text>
         <TextInput
           style={styles.inputStyle}
           placeholder="Name"
+          placeholderTextColor= "#000000"
           value={this.state.displayName}
           onChangeText={(val) => this.updateInputVal(val, 'displayName')}
         />      
         <TextInput
           style={styles.inputStyle}
           placeholder="Email"
+          placeholderTextColor= "#000000"
           value={this.state.email}
           onChangeText={(val) => this.updateInputVal(val, 'email')}
         />
         <TextInput
           style={styles.inputStyle}
           placeholder="Password"
+          placeholderTextColor= "#000000"
           value={this.state.password}
           onChangeText={(val) => this.updateInputVal(val, 'password')}
           maxLength={15}
           secureTextEntry={true}
         />   
-        <Button
+        <View style={[{ width: "90%", padding:0, alignSelf:"center"}]}>
+
+        <Button 
           color="#00a8cc"
           title="Signup"
           onPress={() => this.registerUser()}
         />
+        </View>
 
         <Text 
           style={styles.loginText}
@@ -124,8 +141,9 @@ const styles = StyleSheet.create({
     bottom: 0,
     right: 0,
     opacity: 1,
-    width:'100%',
-    height:'100%'
+    width: "auto",
+    height:"auto",
+    justifyContent: "center"
 
 },
   container: {
@@ -133,27 +151,26 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-    padding: 10,
-    opacity: 0.9,
-
-    paddingBottom: 200
+    padding: 0,
+    paddingBottom: 150
   },
   inputStyle: {
-    width: '100%',
-    marginBottom: 15,
-    paddingBottom: 15,
+    width: '90%',
+    marginBottom: 15, 
+    padding: 5,
+    fontSize: 18,
+    fontWeight:"bold",
     alignSelf: "center",
-    borderColor: "#ccc",
+    borderColor: "#000000",
     borderBottomWidth: 1,
-    color:'#ffffff'
+    color:'#000000',
+    backgroundColor:"rgba(206, 206, 206, 0.322)",
 
   },
   loginText: {
     color: '#ffffff',
-    marginTop: 25,
-    textAlign: 'center',
-    color:'#ffffff'
-
+    marginTop: 5,
+    textAlign: 'center'
   },
   preloader: {
     left: 0,

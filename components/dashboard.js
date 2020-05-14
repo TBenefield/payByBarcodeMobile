@@ -117,32 +117,54 @@ export default class Dashboard extends Component {
     return (
       <ScrollView>
       
-      <Image style= { styles.backgroundImage } source={require('./b2.jpg')} >
+      <Image style= { styles.backgroundImage } source={require('./bb1.jpg')} >
       </Image>
-      <Image source={require('../components/LOGO.png')} style={{ width:'100%',  alignSelf: "center",opacity: 0.9, padding:0     }}/>
+      <Image source={require('../components/LOGO.png')} style={{ width:'110%',  alignSelf: "center",opacity: 1, padding:0     }}/>
+      <View style={styles.qrCode} opacity={this.state.barcodeVisible}>
+      <QRCode
+        value={this.state.barcode}
+        size={200}
+        />
+      </View>
+
+      <View style={styles.item1} opacity={this.state.awaitingConfirmation}>
+      <Text
+        style={{
+          fontSize: 15,
+          color: "#000000",
+          fontWeight: "bold",
+          paddingTop: 0,
+        }}>
+        Awaiting Confirmation of Payment</Text>
+        <Image source={require('../components/loading.gif')} style={{ width:30,height:30,opacity: 1, marginLeft:20}}/>
+      </View>
+
+      <View style={styles.confirmButton} opacity={this.state.processed}>
+        <Button
+        title="Confirm Payment"
+        onPress = {this.confirm}
+        />
+      </View>
 
       <View style={styles.container}>
         <Text style = {styles.textStyle}>
           Hello, {this.state.displayName}          
         </Text>
+   
         <Text
         style={{
           textAlign: "center",
-          color: "#ffffff",
+          color: "#000000",
           fontWeight: "bold",
-          paddingTop: 0,
+          padding: 0,
+          fontSize:17
         
         }}>
-        Welcome To Pay By Barcode</Text>
-        <Text
-        style={{
-          textAlign: "center",
-          color: "#ffffff",
-          fontWeight: "bold",
-          paddingTop: 0,
-        
-        }}>
-        Make all your Payments with just a scan!</Text>
+        Please enter your Transaction Details</Text>
+
+
+
+
 
         <View style={styles.item1}>
           <Text style={styles.headers}>Description</Text>
@@ -174,32 +196,7 @@ export default class Dashboard extends Component {
         />
 		  </View>
 		  
-		  <View style={styles.qrCode} opacity={this.state.barcodeVisible}>
-      <QRCode
-			  value={this.state.barcode}
-			  size={200}
-			  />
-		  </View>
 
-      <View style={styles.item1} opacity={this.state.awaitingConfirmation}>
-      <Text
-        style={{
-          fontSize: 15,
-          color: "#ffffff",
-          fontWeight: "bold",
-          paddingTop: 0,
-        }}>
-        Awaiting Confirmation of Payment</Text>
-        <Image source={require('../components/loading.gif')} style={{ width:30,height:30,opacity: 0.9, marginLeft:20}}/>
-      </View>
-
-      <View style={styles.confirmButton} opacity={this.state.processed}>
-		    <Button
-        title="Confirm Payment"
-        onPress = {this.confirm}
-        color='green'
-        />
-		  </View>
 
 
         <Button
@@ -228,16 +225,17 @@ const styles = StyleSheet.create({
 
 },
   barButton: {
+    width:"90%",
 	  fontSize: 60,
-	  width: '70%',
-    marginTop: 10,
+    marginTop: 5,
+    marginBottom:5
+
 	  /*marginHorizontal: '36%'*/
   },
   confirmButton: {
     fontSize: 60,
 	  width: '70%',
-    marginTop: 10,
-    backgroundColor: 'green',
+    marginTop: 0,
     marginBottom: 5,
   },
   container: {
@@ -245,66 +243,85 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 20,
+    padding: 0,
     paddingBottom:100
   },
   headers: {
-    color:'#00a8cc',
-
+    color:'#000000',
     fontSize: 25,
     marginRight: 30,
     marginLeft: 75,
     textDecorationLine: 'underline',
-    paddingBottom:5
+    paddingBottom:2,
+    marginTop:15
   },
   inputDescription: {
-    color: '#ffffff',
-    borderColor: 'gray',
-    borderWidth: 1,
+    color: '#000000',
+    borderColor: '#000000',
     width: '80%',
     height: 30,
     fontSize: 20,
+    fontWeight:"bold",
     textAlign: 'left',
-    marginRight: 20,
-    paddingLeft: 2  
+    padding: 0,
+    marginLeft:45,
+    alignSelf: "center",
+    borderColor: "#000000",
+    borderBottomWidth: 2,
+    color:'#000000',
+    backgroundColor:"rgba(206, 206, 206, 0.322)",
+
   },
   inputPayment: {
-    color: '#ffffff',
-    borderColor: 'gray',
-    borderWidth: 1,
-    width: '30%',
+    color: '#000000',
+    borderColor: '#000000',
+    width: '26%',
     height: 30,
     fontSize: 20,
     textAlign: 'right',
     marginLeft: 5,
     paddingRight: 5,
+    padding: 0,
+    marginRight:45,
+    alignSelf: "center",
+    borderColor: "#000000",
+    borderBottomWidth: 2,
+    color:'#000000',
+    backgroundColor:"rgba(206, 206, 206, 0.322)",
+
+
   },
   item1: {  
     flexDirection: 'row',
-    color: '#ffffff',
+    color: '#000000',
     alignItems: 'center',
-    marginTop: 20
+    marginTop: 0,
+    flex: 1,
+    display: "flex",
+    justifyContent: 'center',
   },
   item2: {
     flexDirection: 'row',
-    color: '#ffffff',
+    color: '#000000',
     marginLeft: 30,
     marginRight: 30,
     alignItems: 'center',
 
   },
   qrCode: {
-    marginTop: 20,
-    borderColor: 'gray',
-    borderWidth: 5,
-    marginBottom: 10
+    marginTop: 0,
+    marginBottom: 0,
+    alignItems: 'center',
+    flex: 1,
+    display: "flex",
+    justifyContent: 'center',
 
   },
   textStyle: {
-    fontSize: 25,
-    marginBottom: 10,
+    fontSize:30,
+    marginBottom: 0,
     padding:0,
-    color: '#00a8cc',
-    textDecorationLine: 'underline',
+    color: '#000000',
+    fontWeight:"bold",
   }
 });
