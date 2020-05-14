@@ -15,14 +15,16 @@ export default class Dashboard extends Component {
   constructor() {
     super();
     this.state = { 
-      //displayName: firebase.auth().currentUser.displayName,
+      displayName: firebase.auth().currentUser.displayName,
+      uEmail: firebase.auth().currentUser.email,
       uid: firebase.auth().currentUser.uid,
       barcode: 'http://paybybarcode.fun',
       paymentAmount: 0,
       barcodeVisible: 0,
-      transactionInProgress: false,
-      processed: false,
+      transactionInProgress: 0,
+      processed: 0,
       firebase: firebase.firestore().collection('invoices'),
+      awaitingConfirmation: 0,
     };
   }
 
@@ -52,9 +54,10 @@ export default class Dashboard extends Component {
     this.setState({
       payment: null,
       description: '',
-      transactionInProgress: false,
-      processed: false,
-      barcodeVisible: false
+      transactionInProgress: 0,
+      processed: 0,
+      barcodeVisible: 0,
+      awaitingConfirmation: 0,
     })
   }
 
@@ -73,7 +76,7 @@ export default class Dashboard extends Component {
     };
 
     //start transaction, this will disable text and buttons
-    this.setState({ transactionInProgress: true});    
+    this.setState({ transactionInProgress: 1});    
 
     //generate confirmation key
     var confirmKey = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
@@ -81,22 +84,27 @@ export default class Dashboard extends Component {
     //invoice in firebase
     this.state.firebase
       .add({
-        user: this.state.uid,
+        user: this.state.displayName, 
+        userEmail: this.state.uEmail,
         payment: this.state.payment,
         description: this.state.description,
         creationDate: moment().format('llll'),
-        processed: false,
+        processed: 0,
         securityKey: confirmKey,
     })
       .then((invoice) => {
         //generate url for barcode and make it visible
         this.setState({
           barcode: 'http://paybybarcode.fun/home/invoice=' + invoice.id + '/key=' + confirmKey,
-          barcodeVisible: 1
+          barcodeVisible: 1,
+          awaitingConfirmation: 1,
         })
         //watch the snapshot of firestore for the confirmation of payment
         this.state.firebase.doc(invoice.id).onSnapshot((shot) => {            
-          this.setState({ processed: shot.data().processed });
+          this.setState({ 
+            processed: shot.data().processed,
+            awaitingConfirmation: shot.data().processed ? 0 : 1,
+          });
         })
       })
       .catch(function(error) {
@@ -173,7 +181,7 @@ export default class Dashboard extends Component {
 			  />
 		  </View>
 
-      <View style={styles.item1} opacity={this.state.transactionInProgress && !this.state.processed}>
+      <View style={styles.item1} opacity={this.state.awaitingConfirmation}>
       <Text
         style={{
           fontSize: 15,
@@ -189,9 +197,10 @@ export default class Dashboard extends Component {
 		    <Button
         title="Confirm Payment"
         onPress = {this.confirm}
-        color="white"
+        color='green'
         />
 		  </View>
+
 
         <Button
         color="#00a8cc"
@@ -226,10 +235,10 @@ const styles = StyleSheet.create({
   },
   confirmButton: {
     fontSize: 60,
-    color: 'black',
 	  width: '70%',
     marginTop: 10,
     backgroundColor: 'green',
+    marginBottom: 5,
   },
   container: {
     flex: 1,
