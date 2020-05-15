@@ -33,16 +33,21 @@ export default class Login extends Component {
       .auth()
       .signInWithEmailAndPassword(this.state.email, this.state.password)
       .then((res) => {
-        console.log(res)
-        console.log('User logged-in successfully!')
+        //console.log(res);
+        console.log('User logged-in successfully!');
         this.setState({
-          isLoading: false,
+          isLoading: false, 
           email: '', 
           password: ''
         })
         this.props.navigation.navigate('Dashboard')
       })
-      .catch(error => this.setState({ errorMessage: error.message }))
+      .catch((error) => {
+        Alert.alert(error.message);
+        this.setState({
+          isLoading: false
+        })
+      })
     }
   }
 
