@@ -5,3 +5,5 @@
 #cd NameApp
 
 #npm install
+
+Intended for use with Android devices
